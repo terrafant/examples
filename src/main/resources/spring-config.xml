@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="quest" class="com.uay.spring.quest.Quest" >
+        <constructor-arg index="0" ref="galahadKnight" />
+    </bean>
+    <bean id="galahadKnight" class="com.uay.spring.quest.knights.GalahadKnight" />
+    <bean id="gawainKnight" class="com.uay.spring.quest.knights.GawainKnight" />
+
+    <bean id="logger" class="com.uay.spring.quest.log.Logger" />
+    <aop:config>
+        <aop:aspect id="logAspect" ref="logger" >
+            <aop:before method="logBefore" pointcut="execution(* com.uay.spring.quest.knights.GalahadKnight.rescueDamsel(..))" />
+        </aop:aspect>
+    </aop:config>
+
+   <bean id="logAspect" class="com.uay.spring.quest.log.LogAspect" factory-method="aspectOf">
+       <property name="logger" ref="logger" />
+   </bean>
+</beans>
